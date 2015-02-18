@@ -11,7 +11,7 @@ repo = ARGV[1]
 ref = ARGV[2]
 input_dir = ARGV[3]
 output_dir = ARGV[4]
-commit_msg = ARGV[4]
+commit_msg = ARGV[5]
 
 sha_latest_commit = github.ref(repo, ref).object.sha
 sha_base_tree = github.commit(repo, sha_latest_commit).commit.tree.sha
