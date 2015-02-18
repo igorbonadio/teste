@@ -18,7 +18,7 @@ sha_base_tree = github.commit(repo, sha_latest_commit).commit.tree.sha
 def each_dir(path, &block)
   Dir.foreach(path) do |item|
     next if item == '.' or item == '..'
-    if File.directory? item
+    if File.directory? File.join(path, item)
       each_dir(File.join(path, item), &block)
     else
       block.call(File.join(path, item))
