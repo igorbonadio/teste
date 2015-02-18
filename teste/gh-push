@@ -11,6 +11,7 @@ repo = ARGV[1]
 ref = ARGV[2]
 input_dir = ARGV[3]
 output_dir = ARGV[4]
+commit_msg = ARGV[4]
 
 sha_latest_commit = github.ref(repo, ref).object.sha
 sha_base_tree = github.commit(repo, sha_latest_commit).commit.tree.sha
@@ -40,7 +41,7 @@ end
 p files
 
 sha_new_tree = github.create_tree(repo, files, {:base_tree => sha_base_tree }).sha
-sha_new_commit = github.create_commit(repo, "Committed via Octokit!", sha_new_tree, sha_latest_commit).sha
+sha_new_commit = github.create_commit(repo, commit_msg, sha_new_tree, sha_latest_commit).sha
 updated_ref = github.update_ref(repo, ref, sha_new_commit)
 
 puts updated_ref
