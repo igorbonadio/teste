@@ -16,19 +16,8 @@ commit_msg = ARGV[5]
 sha_latest_commit = github.ref(repo, ref).object.sha
 sha_base_tree = github.commit(repo, sha_latest_commit).commit.tree.sha
 
-def each_dir(path, &block)
-  Dir.foreach(path) do |item|
-    next if item == '.' or item == '..'
-    if File.directory? File.join(path, item)
-      each_dir(File.join(path, item), &block)
-    else
-      block.call(File.join(path, item))
-    end
-  end
-end
-
 files = []
-each_dir(input_dir) do |item|
+GHPush::each_dir(input_dir) do |item|
   blob_sha = github.create_blob(repo, Base64.encode64(File.open(item, "r").readlines.join), "base64")
   files << ({
     :path => File.join(output_dir, item.split("/")[1..-1].join("/")),
